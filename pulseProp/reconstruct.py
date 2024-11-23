@@ -42,9 +42,10 @@ def reconstructXTFieldAtPlane(savePath, t_0, ind=None, name=None):
 
     fpPath = getFpPath(savePath)
     attrs, data = fp.load.loadGridAtPlane(fpPath, ind=ind, name=name)
-    Nx = attrs["x"]["Nx"]
-    Ny = attrs["y"]["Ny"]
-    x = data["x"]["x"]
+    if attrs["type"] == "Cartesian":
+        Nx = attrs["Nx"]
+    else:
+        Nx = attrs["Nr"]
 
     # Sum the fields at each frequency
     m = np.arange(Nt)
@@ -70,9 +71,6 @@ def reconstructOnAxisAtPlane(savePath, t_0, ind=None, name=None):
     phi_t0 = 2 * np.pi * f_t * t_0
 
     fpPath = getFpPath(savePath)
-    attrs, data = fp.load.loadGridAtPlane(fpPath, ind=ind, name=name)
-    Nx = attrs["x"]["Nx"]
-    Ny = attrs["y"]["Ny"]
 
     # Sum the fields at each frequency
     m = np.arange(Nt)
@@ -99,9 +97,10 @@ def reconstructFourierSpaceAtPlane(savePath, t_0, ind=None, name=None):
 
     fpPath = getFpPath(savePath)
     attrs, data = fp.load.loadGridAtPlane(fpPath, ind=ind, name=name)
-    Nx = attrs["x"]["Nx"]
-    Ny = attrs["y"]["Ny"]
-    x = data["x"]["x"]
+    if attrs["type"] == "Cartesian":
+        Nx = attrs["Nx"]
+    else:
+        Nx = attrs["Nr"]
 
     # Sum the fields at each frequency
     U_total = np.zeros((Nx, Nf), dtype="complex128")
